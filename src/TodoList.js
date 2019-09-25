@@ -1,7 +1,23 @@
 import { connect } from 'react-redux';
 import React from 'react';
-import useStyles from './ContainedButtons';
+//import useStyles from './ContainedButtons';
 import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
+import {
+  createMuiTheme,
+  withStyles,
+  makeStyles,
+} from '@material-ui/core/styles';
+
 import {
   //sortTodo,
   removeTodo,
@@ -9,6 +25,47 @@ import {
   toggleTodo,
 } from './Action';
 
+const useStyles = {
+  root: {
+    /* padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+    flexGrow: 1,
+    maxWidth: 752, */
+    width: '100%',
+    backgroundColor: 'cadetblue;',
+    padding: '10px',
+    /* width: 100%; */
+    margin: '10px',
+    border: '1px black',
+    // float: left;
+  },
+  input: {
+    //marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  demo: {
+    margin: '10px',
+    padding: '10px',
+    border: '1px',
+
+    color: 'black',
+    /* background-color: cornsilk; */
+    borderStyle: 'double',
+  },
+  listingitems: {
+    margin: '1px',
+    border: '1px',
+    borderStyle: 'inset',
+    backgroundColor: 'cornsilk',
+  },
+};
+
+//const [dense] = React.useState(false);
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
@@ -26,10 +83,11 @@ class TodoList extends React.Component {
 
   render() {
     const { handleClick, todos, removeItem } = this.props;
-    //const classes = useStyles();
+    const { classes } = this.props;
+
     return (
       <div>
-        <input
+        {/*   <input
           style={{ marginleft: '100px' }}
           placeholder="search"
           ref="search"
@@ -37,28 +95,56 @@ class TodoList extends React.Component {
         />
         <Button
           //type="button"
+          className={useStyles.iconButton}
           variant="contained"
           color="default"
-          /* value="Search" */ onClick={this.searchClick}
-        />
-        <ol>
-          {todos.map(todo => (
-            <li
-              onClick={() => handleClick(todo.id)}
-              style={{ textDecoration: todo.completed ? 'line-through' : null }}
-              key={todo.id}>
-              {todo.name}
-              <Button
-                //component="span"
-                variant="contained"
-                color="secondary"
-                //className={classes.button}
-                onClick={() => removeItem(todo.id)}>
-                Delete
-              </Button>
-            </li>
-          ))}
-        </ol>
+           value="Search"  onClick={this.searchClick}>
+          Search
+        </Button> */}
+        <Paper className={classes.root}>
+          <InputBase
+            className={classes.input}
+            placeholder="Enter item name to search"
+            inputProps={{ 'aria-label': 'search Items' }}
+            onChange={this.handleChange}
+          />
+          <IconButton
+            className={classes.iconButton}
+            aria-label="search"
+            onClick={this.searchClick}>
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+        <ul className={classes.demo}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <div>
+                <List className={classes.demo}>
+                  {todos.map(todo => (
+                    <ListItem
+                      className={classes.listingitems}
+                      onClick={() => handleClick(todo.id)}
+                      style={{
+                        textDecoration: todo.completed ? 'line-through' : null,
+                      }}
+                      key={todo.id}>
+                      {todo.name}
+                      {/*                       <Button
+                        onClick={() => removeItem(todo.id)}>
+                        <DeleteIcon></DeleteIcon>
+                      </Button> */}
+                      <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="comments" onClick={() => removeItem(todo.id)} >
+                          <DeleteIcon  />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))}
+                </List>
+              </div>
+            </Grid>
+          </Grid>
+        </ul>
       </div>
     );
   }
@@ -129,7 +215,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
+const EnhancedTodoList = withStyles(useStyles)(TodoList);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TodoList);
+)(EnhancedTodoList);
