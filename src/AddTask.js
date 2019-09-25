@@ -1,6 +1,45 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addTodo, populateTodo } from './Action';
+import Button from '@material-ui/core/Button';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Paper from '@material-ui/core/Paper';
+//import useStyles from './ContainedButtons';
+import {
+  createMuiTheme,
+  withStyles,
+  makeStyles,
+} from '@material-ui/core/styles';
+
+const styles = {
+  root: {
+    //padding: '2px 4px',
+    //display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+  },
+  container: {
+    //width: 400,
+    padding: '2px 4px',
+    margin: '10px',
+    border: '1px',
+  },
+  formControl: {
+    width: '400px',
+    float: 'left',
+    //padding: '2px 4px',
+  },
+  btnAlign: {
+    backgroundColor: 'blue',
+    padding: '10px',
+    width: '100px',
+    margin: '1px',
+    //marginLeft: '-20%',
+    height: '50px',
+  },
+};
 
 class AddTask extends React.Component {
   constructor(props) {
@@ -32,12 +71,27 @@ class AddTask extends React.Component {
   } */
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        <input value={this.state.name} onChange={this.handleChange} />
-        <button type="button" onClick={this.addTask}>
+      <div className={classes.container}>
+        <FormControl className={classes.formControl} variant="outlined">
+          <InputLabel htmlFor="component-outlined">Name</InputLabel>
+          <OutlinedInput
+            id="component-outlined"
+            value={this.state.name}
+            onChange={this.handleChange}
+          />
+        </FormControl>
+
+        {/* <input value={this.state.name} onChange={this.handleChange} /> */}
+        <Button
+          className={classes.btnAlign}
+          variant="contained"
+          /* color="primary"
+          type="button" */
+          onClick={this.addTask}>
           Add
-        </button>
+        </Button>
         {/* <button type="button" onClick={this.populateList}>
           PopulateList
         </button> */}
@@ -45,6 +99,8 @@ class AddTask extends React.Component {
     );
   }
 }
+
+const EnhancedAddTask = withStyles(styles)(AddTask);
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -56,4 +112,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   null,
   mapDispatchToProps,
-)(AddTask);
+)(EnhancedAddTask);

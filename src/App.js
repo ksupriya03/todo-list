@@ -11,7 +11,8 @@ import Sorting from './Sorting';
 import { addTodo, populateTodo } from './Action';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+
+import Header from './Header';
 const store = createStore(todoApp);
 const Applist = () => {
   return (
@@ -44,6 +45,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <Header />
         <AddTask />
         <TodoList />
         <Footer />

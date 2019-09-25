@@ -24,7 +24,7 @@ const Link = ({ active, onClick, children }) => {
       variant="outlined"
       color="secondary"
       className={classes.button}
-      style={{ backgroundColor: active && 'red' }}
+      style={{ backgroundColor: active && 'yellow' }}
       onClick={e => {
         e.preventDefault();
         onClick();
